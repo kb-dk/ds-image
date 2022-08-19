@@ -456,7 +456,11 @@ paths:
       x-streamingOutput: true
       responses:
         '200':
-          description: 'Succes!'
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/manifest'
   
   /{identifier}/sequence/{name}:
     get:
@@ -914,6 +918,31 @@ components:
       - width
       - height
 
+    # IIIF Presentation manifest response
+    manifest:
+      type: object
+      properties:
+        # Metadata about the manifest file
+        '@context': 
+          type: string
+          example: "http://iiif.io/api/presentation/2/context.json"
+        '@id':
+          type: string
+          example: "http://example.org/iiif/book1/manifest"
+        '@type':
+          type: string
+          example: "sc:Manifest"
+        # Descriptive metadata about the object/work
+        label: 
+          type: string 
+          example: "Book 1"
+        metadata:
+          type: object
+          properties:
+            author: 
+              type: string
+        
+      
     # Basic status response component.
     Status:
       type: object
