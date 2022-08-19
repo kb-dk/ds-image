@@ -1005,7 +1005,8 @@ components:
                   type: string
                   example: "http://iiif.io/api/image/2/level2.json"
         # Links
-        
+        # TODO: Add Links, list of sequences
+        # TODO: Figure out if all of presentation API can be contained in one schema
         
       
     # Basic status response component.
