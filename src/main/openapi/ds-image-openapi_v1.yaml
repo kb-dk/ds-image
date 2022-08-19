@@ -437,7 +437,209 @@ paths:
               application/ld+json:
                 schema:
                   $ref: '#/components/schemas/jsonld'
-                  
+  
+  # IIIF Presentation
+  /{identifier}/manifest:
+    get:
+      tags:
+        - 'Access'
+      summary: "IIIF Presentation manifest"
+      operationId: getPresentationManifest
+      parameters:
+      - name: identifier
+        in: path
+        description: "The identifier of the requested image. This may be an ARK, URN, filename, or other identifier. Special characters must be URI encoded."
+        required: true
+        schema:
+          type: string
+      
+      x-streamingOutput: true
+      responses:
+        '200':
+          description: 'Succes!'
+  
+  /{identifier}/sequence/{name}:
+    get:
+      tags:
+        - 'Access'
+      summary: "IIIF Presentation sequence"
+      operationId: getPresentationSequence
+      parameters:
+      - name: identifier
+        in: path
+        description: "The identifier of the requested image. This may be an ARK, URN, filename, or other identifier. Special characters must be URI encoded."
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
+        description: "The {name} parameter in the URI structure must distinguish it from any other sequences that may be available for the physical object. Typical default names for sequences are “normal” or “basic”."
+        required: true
+        schema:
+          type: string
+          example: "normal"
+      
+      x-streamingOutput: true
+      responses:
+        '200':
+          description: 'Succes!'
+  
+  /{identifier}/canvas/{name}:
+    get:
+      tags:
+        - 'Access'
+      summary: "IIIF Presentation canvas"
+      operationId: getPresentationCanvas
+      parameters:
+      - name: identifier
+        in: path
+        description: "The identifier of the requested image. This may be an ARK, URN, filename, or other identifier. Special characters must be URI encoded."
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
+        description: "The {name} parameter in the URI structure must distinguish it from any other sequences that may be available for the physical object. Typical default names for sequences are “normal” or “basic”."
+        required: true
+        schema:
+          type: string
+          example: "normal"
+      
+      x-streamingOutput: true
+      responses:
+        '200':
+          description: 'Succes!'
+  
+  /{identifier}/annotation/{name}:
+    get:
+      tags:
+        - 'Access'
+      summary: "IIIF Presentation Image Resources"
+      operationId: getPresentationAnnotation
+      parameters:
+      - name: identifier
+        in: path
+        description: "The identifier of the requested image. This may be an ARK, URN, filename, or other identifier. Special characters must be URI encoded."
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
+        description: "The {name} parameter in the URI structure must distinguish it from any other sequences that may be available for the physical object. Typical default names for sequences are “normal” or “basic”."
+        required: true
+        schema:
+          type: string
+          example: "normal"
+      
+      x-streamingOutput: true
+      responses:
+        '200':
+          description: 'Succes!'
+  
+  /{identifier}/list/{name}:
+    get:
+      tags:
+        - 'Access'
+      summary: "IIIF Presentation Annotation List"
+      operationId: getPresentationList
+      parameters:
+      - name: identifier
+        in: path
+        description: "The identifier of the requested image. This may be an ARK, URN, filename, or other identifier. Special characters must be URI encoded."
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
+        description: "The {name} parameter in the URI structure must distinguish it from any other sequences that may be available for the physical object. Typical default names for sequences are “normal” or “basic”."
+        required: true
+        schema:
+          type: string
+          example: "normal"
+      
+      x-streamingOutput: true
+      responses:
+        '200':
+          description: 'Succes!'
+          
+  /{identifier}/range/{name}:
+    get:
+      tags:
+        - 'Access'
+      summary: "IIIF Presentation Range"
+      operationId: getPresentationRange
+      parameters:
+      - name: identifier
+        in: path
+        description: "The identifier of the requested image. This may be an ARK, URN, filename, or other identifier. Special characters must be URI encoded."
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
+        description: "The {name} parameter in the URI structure must distinguish it from any other sequences that may be available for the physical object. Typical default names for sequences are “normal” or “basic”."
+        required: true
+        schema:
+          type: string
+          example: "normal"
+      
+      x-streamingOutput: true
+      responses:
+        '200':
+          description: 'Succes!'
+          
+  /{identifier}/layer/{name}:
+    get:
+      tags:
+        - 'Access'
+      summary: "IIIF Presentation Layer"
+      operationId: getPresentationLayer
+      parameters:
+      - name: identifier
+        in: path
+        description: "The identifier of the requested image. This may be an ARK, URN, filename, or other identifier. Special characters must be URI encoded."
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
+        description: "The {name} parameter in the URI structure must distinguish it from any other sequences that may be available for the physical object. Typical default names for sequences are “normal” or “basic”."
+        required: true
+        schema:
+          type: string
+          example: "normal"
+      
+      x-streamingOutput: true
+      responses:
+        '200':
+          description: 'Succes!'
+          
+  /{identifier}/collection/{name}:
+    get:
+      tags:
+        - 'Access'
+      summary: "IIIF Presentation Collection"
+      operationId: getPresentationCollection
+      parameters:
+      - name: identifier
+        in: path
+        description: "The identifier of the requested image. This may be an ARK, URN, filename, or other identifier. Special characters must be URI encoded."
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
+        description: "The {name} parameter in the URI structure must distinguish it from any other sequences that may be available for the physical object. Typical default names for sequences are “normal” or “basic”."
+        required: true
+        schema:
+          type: string
+          example: "normal"
+      
+      x-streamingOutput: true
+      responses:
+        '200':
+          description: 'Succes!'
+      
  # The ping service should be in all projects, should not do any advanced processing
   # and should respond quickly with a simple message, e.g. "pong".
   #
