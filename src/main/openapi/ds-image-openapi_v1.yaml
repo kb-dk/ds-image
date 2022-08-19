@@ -937,10 +937,75 @@ components:
           type: string 
           example: "Book 1"
         metadata:
+          type: array
+          items:
+            type: object
+            properties:
+              label:
+                type:  string
+                example: Author
+              value:
+                type: string
+                example: Anne Author
+        description:
+          type: string
+          example: "A longer description of this example book. It should give some real information."
+        thumbnail: 
           type: object
           properties:
-            author: 
+            '@id':
               type: string
+              example: "http://example.org/images/book1-page1/full/80,100/0/default.jpg"
+            service:
+              type: object
+              properties:
+                '@context':
+                  type: string
+                  example: "http://iiif.io/api/image/2/context.json"
+                '@id':
+                  type: string
+                  example: "http://example.org/images/book1-page1"
+                profile:
+                  type: string
+                  example: "http://iiif.io/api/image/2/level1.json"
+        # Presentation information
+        viewingDirection:
+          type: string
+          example: "right-to-left"
+        viewingHint:
+          type: string
+          example: "paged"
+        navDate:
+          type: string
+          format: date-time
+          example: "1856-01-01T00:00:00Z"
+        # Rights information
+        license:
+          type: string
+          example: "http://rightsstatements.org/vocab/NoC-NC/1.0/"
+        attribution:
+          type: string
+          example: "Provided by Example Organization"
+        logo:
+          type: object
+          properties:
+            '@id':
+              type: string
+              example: "http://example.org/logos/institution1.jpg"
+            service: 
+              type: object
+              properties:
+                '@context': 
+                  type: string
+                  example: "http://iiif.io/api/image/2/context.json"
+                '@id':
+                  type: string
+                  example: "http://example.org/service/inst1"
+                'profile':
+                  type: string
+                  example: "http://iiif.io/api/image/2/level2.json"
+        # Links
+        
         
       
     # Basic status response component.
