@@ -439,6 +439,36 @@ paths:
                   $ref: '#/components/schemas/jsonld'
   
   # IIIF Presentation
+  /{identifier}/collection/{name}:
+    get:
+      tags:
+        - 'Access'
+      summary: "IIIF Presentation Collection"
+      operationId: getPresentationCollection
+      parameters:
+      - name: identifier
+        in: path
+        description: "The identifier of the requested image. This may be an ARK, URN, filename, or other identifier. Special characters must be URI encoded."
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
+        description: "The {name} parameter in the URI structure must distinguish it from any other sequences that may be available for the physical object. Typical default names for sequences are “normal” or “basic”."
+        required: true
+        schema:
+          type: string
+          example: "normal"
+      
+      x-streamingOutput: true
+      responses:
+        '200':
+          description: 'Succes!'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/collection'
+          
   /{identifier}/manifest:
     get:
       tags:
@@ -462,12 +492,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/manifest'
   
-  /{identifier}/sequence/{name}:
+  /{identifier}/canvas/{name}:
     get:
       tags:
         - 'Access'
-      summary: "IIIF Presentation sequence"
-      operationId: getPresentationSequence
+      summary: "IIIF Presentation canvas"
+      operationId: getPresentationCanvas
       parameters:
       - name: identifier
         in: path
@@ -487,13 +517,13 @@ paths:
       responses:
         '200':
           description: 'Succes!'
-  
-  /{identifier}/canvas/{name}:
+          
+  /{identifier}/range/{name}:
     get:
       tags:
         - 'Access'
-      summary: "IIIF Presentation canvas"
-      operationId: getPresentationCanvas
+      summary: "IIIF Presentation Range"
+      operationId: getPresentationRange
       parameters:
       - name: identifier
         in: path
@@ -546,84 +576,6 @@ paths:
         - 'Access'
       summary: "IIIF Presentation Annotation List"
       operationId: getPresentationList
-      parameters:
-      - name: identifier
-        in: path
-        description: "The identifier of the requested image. This may be an ARK, URN, filename, or other identifier. Special characters must be URI encoded."
-        required: true
-        schema:
-          type: string
-      - name: name
-        in: path
-        description: "The {name} parameter in the URI structure must distinguish it from any other sequences that may be available for the physical object. Typical default names for sequences are “normal” or “basic”."
-        required: true
-        schema:
-          type: string
-          example: "normal"
-      
-      x-streamingOutput: true
-      responses:
-        '200':
-          description: 'Succes!'
-          
-  /{identifier}/range/{name}:
-    get:
-      tags:
-        - 'Access'
-      summary: "IIIF Presentation Range"
-      operationId: getPresentationRange
-      parameters:
-      - name: identifier
-        in: path
-        description: "The identifier of the requested image. This may be an ARK, URN, filename, or other identifier. Special characters must be URI encoded."
-        required: true
-        schema:
-          type: string
-      - name: name
-        in: path
-        description: "The {name} parameter in the URI structure must distinguish it from any other sequences that may be available for the physical object. Typical default names for sequences are “normal” or “basic”."
-        required: true
-        schema:
-          type: string
-          example: "normal"
-      
-      x-streamingOutput: true
-      responses:
-        '200':
-          description: 'Succes!'
-          
-  /{identifier}/layer/{name}:
-    get:
-      tags:
-        - 'Access'
-      summary: "IIIF Presentation Layer"
-      operationId: getPresentationLayer
-      parameters:
-      - name: identifier
-        in: path
-        description: "The identifier of the requested image. This may be an ARK, URN, filename, or other identifier. Special characters must be URI encoded."
-        required: true
-        schema:
-          type: string
-      - name: name
-        in: path
-        description: "The {name} parameter in the URI structure must distinguish it from any other sequences that may be available for the physical object. Typical default names for sequences are “normal” or “basic”."
-        required: true
-        schema:
-          type: string
-          example: "normal"
-      
-      x-streamingOutput: true
-      responses:
-        '200':
-          description: 'Succes!'
-          
-  /{identifier}/collection/{name}:
-    get:
-      tags:
-        - 'Access'
-      summary: "IIIF Presentation Collection"
-      operationId: getPresentationCollection
       parameters:
       - name: identifier
         in: path
@@ -710,6 +662,7 @@ paths:
                 type: string
 components:
   schemas:
+    # Schema for IIP JTL and PTL request
     JTL_PTL:
       type: array
       items:
@@ -717,7 +670,7 @@ components:
       minItems: 2
       maxItems: 2
     
-    # jsonld response for IIIF image information
+    # IIIF image information jsonld response
     jsonld:
       type: object
       properties:
@@ -917,7 +870,88 @@ components:
       - profile
       - width
       - height
-
+    
+    # IIIF Presenntation collection response
+    collection: 
+      type: object
+      properties:
+        '@context': 
+          type: string
+          example: "http://iiif.io/api/presentation/3/context.json"
+        id:
+          type: string
+          example: "https://example.org/iiif/collection/top"
+        type:
+          type: string
+          example: "Collection"
+        label: 
+          type: object
+          properties:
+            en:
+              type: array
+              items:
+                type: string
+                example: "Collection for Example Organization"
+        summary: 
+          type: object
+          properties:
+            en:
+              type: array
+              items:
+                type: string
+                example: "Short summary of the Collection"
+        requiredStatement:
+          type: object
+          properties:
+            label: 
+              type: object
+              properties:
+                en:
+                  type: array
+                  items:
+                    type: string
+                    example: "Attribution"
+            value: 
+              type: object
+              properties:
+                en:
+                  type: array
+                  items:
+                    type: string
+                    example: "Provided by Example Organization"
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                example: "https://example.org/iiif/1/manifest"
+              type:
+                type: string
+                example: "Manifest"
+              label: 
+                type: object
+                properties:
+                  en:
+                    type: array
+                    items:
+                      type: string
+                      example: "Example Manifest 1"
+              thumbnail:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: "https://example.org/manifest1/thumbnail.jpg"
+                    type:
+                      type: string
+                      example: "Image"
+                    format:
+                      type: string
+                      format: "image/jpeg"
     # IIIF Presentation manifest response
     manifest:
       type: object
@@ -1247,7 +1281,6 @@ components:
                   example:  "Annotation about the Manifest"
         # TODO: Figure out if all of presentation API can be contained in one schema
         
-      
     # Basic status response component.
     Status:
       type: object
