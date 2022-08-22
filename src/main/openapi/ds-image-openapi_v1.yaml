@@ -644,7 +644,7 @@ paths:
         '200':
           description: 'Succes!'
       
- # The ping service should be in all projects, should not do any advanced processing
+  # The ping service should be in all projects, should not do any advanced processing
   # and should respond quickly with a simple message, e.g. "pong".
   #
   # Note that it is placed under /monitor. The top namespace /monitor is intended for
@@ -934,8 +934,13 @@ components:
           example: "sc:Manifest"
         # Descriptive metadata about the object/work
         label: 
-          type: string 
-          example: "Book 1"
+          type: object
+          properties:
+            en:
+              type: array
+              items:
+                type: string
+                example: "Book 1"
         metadata:
           type: array
           items:
@@ -947,27 +952,37 @@ components:
               value:
                 type: string
                 example: Anne Author
-        description:
+        summary:
           type: string
-          example: "A longer description of this example book. It should give some real information."
-        thumbnail: 
-          type: object
-          properties:
-            '@id':
-              type: string
-              example: "http://example.org/images/book1-page1/full/80,100/0/default.jpg"
-            service:
-              type: object
-              properties:
-                '@context':
-                  type: string
-                  example: "http://iiif.io/api/image/2/context.json"
-                '@id':
-                  type: string
-                  example: "http://example.org/images/book1-page1"
-                profile:
-                  type: string
-                  example: "http://iiif.io/api/image/2/level1.json"
+          example: "Book 1, written by Anne Author, published in Paris around 1400."
+        thumbnail:
+          type: array
+          items:
+            type: object
+            properties:
+              '@id':
+                type: string
+                example: "http://example.org/images/book1-page1/full/80,100/0/default.jpg"
+              type:
+                type: string
+                example: "Image"
+              format:
+                type: string
+                example: "image/jpeg"
+              service:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: "http://example.org/images/book1-page1"
+                    type:
+                      type: string
+                      example: "ImageService3"
+                    profile:
+                      type: string
+                      example: "level1"
         # Presentation information
         viewingDirection:
           type: string
@@ -980,32 +995,256 @@ components:
           format: date-time
           example: "1856-01-01T00:00:00Z"
         # Rights information
-        license:
+        rights:
           type: string
-          example: "http://rightsstatements.org/vocab/NoC-NC/1.0/"
-        attribution:
-          type: string
-          example: "Provided by Example Organization"
-        logo:
+          example: "http://creativecommons.org/licenses/by/4.0/"
+        requiredStatement:
           type: object
           properties:
-            '@id':
+            label:
               type: string
-              example: "http://example.org/logos/institution1.jpg"
-            service: 
-              type: object
-              properties:
-                '@context': 
-                  type: string
-                  example: "http://iiif.io/api/image/2/context.json"
-                '@id':
-                  type: string
-                  example: "http://example.org/service/inst1"
-                'profile':
-                  type: string
-                  example: "http://iiif.io/api/image/2/level2.json"
+              example: "Attribution"
+            value:
+              type: string
+              example: "Provided by Example Organization"
+        provider:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                example: "https://example.org/about"
+              type:
+                type: string
+                example: "Agent"
+              label:
+                type: string
+                example: "Example organisation"
+              homepage:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id: 
+                      type: string
+                      example: "https://example.org/"
+                    type:
+                      type: string
+                      example: "Text"
+                    label:
+                      type: string
+                      example: "Example Organization Homepage"
+                    format: 
+                      type: string
+                      example: "text/html"
+              logo:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: "https://example.org/service/inst1/full/max/0/default.png"
+                    type:
+                      type: string
+                      example: "Image"
+                    format:
+                      type: string
+                      example: "image/png"
+                    service:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            example: "http://example.org/service/inst1"
+                          type: 
+                            type: string
+                            example: "ImageService3"
+                          profile:
+                            type: string
+                            example: "level2"
+              seeAlso:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id: 
+                      type: string
+                      example: "https://data.example.org/about/us.jsonld"
+                    type:
+                      type: string
+                      example: "Dataset"
+                    format:
+                      type: string
+                      example: "application/ld+json"
+                    profile: 
+                      type: string
+                      example: "https://schema.org/"
         # Links
-        # TODO: Add Links, list of sequences
+        homepage:
+          type: array
+          items:
+            type: object
+            properties:
+              id: 
+                type: string
+                example: "https://example.org/info/book1/"
+              type:
+                type: string
+                example: "Text"
+              label:
+                type: string
+                example: "Home page for Book 1"
+              format:
+                type: string
+                example: "text/html"
+        service:
+          type: array
+          items:
+            type: object
+            properties:
+              id: 
+                type: string
+                example: "https://example.org/service/example"
+              type:
+                type: string
+                example: "ExampleExtensionService"
+              profile:
+                type: string
+                example: "https://example.org/docs/example-service.html"
+        seeAlso:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                example: "https://example.org/library/catalog/book1.xml"
+              type: 
+                type: string
+                example: "Dataset"
+              format: 
+                type: string
+                example: "text/xml"
+              profile:
+                type: string
+                example: "https://example.org/profiles/bibliographic"
+        rendering:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                example: "https://example.org/iiif/book1.pdf"
+              type: 
+                type: string
+                example: "Text"
+              label:
+                type: string
+                example: "Download as PDF"
+              format: 
+                type: string
+                example: "application/pdf"
+        partOf:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                  type: string
+                  example: "https://example.org/collections/books/"
+              type: 
+                type: string
+                example: "Collection"
+        start:
+          type: object
+          properties:
+            id:
+                type: string
+                example: "https://example.org/iiif/book1/canvas/p2"
+            type: 
+              type: string
+              example: "Canvas"
+        # List of Services, referenced from within items, structures or annotations
+        services:
+          type: array
+          items:
+            type: object
+            properties:
+              '@id':
+                type: string
+                example: "https://example.org/iiif/auth/login"
+              '@type':
+                type: string
+                example: "AuthCookieService1"
+              profile:
+                type: string
+                example: "http://iiif.io/api/auth/1/login"
+              label:
+                type: string
+                example: "Login to Example Institution"
+              service:
+                type: object
+                properties:
+                  '@id':
+                    type: string
+                    example: "https://example.org/iiif/auth/login"
+                  '@type':
+                    type: string
+                    example: "AuthCookieService1"
+                  profile:
+                    type: string
+                    example: "http://iiif.io/api/auth/1/login"
+        # List of Canvases
+        items: 
+          type: array
+          items:
+            type: object
+            properties:
+              id: 
+                type: string
+                example: "https://example.org/iiif/book1/canvas/p1"
+              type:
+                type: string
+                example: "Canvas"
+              label:
+                type: string
+                example: "p. 1"
+        # Structure of the resource, described with Ranges
+        structures:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                example: "https://example.org/iiif/book1/range/top"
+              type:
+                type: string
+                example: "Range"
+              # Ranges members should be included here
+            # Any additional top level Ranges can be included here
+        # Commentary Annotations on the Manifest
+        annotations:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                example: "https://example.org/iiif/book1/annotations/p1"
+              type:
+                type: string
+                example: "AnnotationPage"
+              items:
+                type: array
+                items:
+                  type: string
+                  example:  "Annotation about the Manifest"
         # TODO: Figure out if all of presentation API can be contained in one schema
         
       
