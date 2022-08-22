@@ -577,6 +577,10 @@ paths:
       responses:
         '200':
           description: 'Succes!'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/annotations'
   
   /{identifier}/list/{name}:
     get:
@@ -1255,21 +1259,7 @@ components:
             # Any additional top level Ranges can be included here
         # Commentary Annotations on the Manifest
         annotations:
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: string
-                example: "https://example.org/iiif/book1/annotations/p1"
-              type:
-                type: string
-                example: "AnnotationPage"
-              items:
-                type: array
-                items:
-                  type: string
-                  example:  "Annotation about the Manifest"
+          $ref: '#/components/schemas/annotations'
         # TODO: Figure out if all of presentation API can be contained in one schema
         
     # IIIF Presentation canvas response
@@ -1413,11 +1403,49 @@ components:
                     id: "https://example.org/iiif/book1/canvas/backCover"
                     type: "Canvas"
 
-  
-  
-    
-            
-            
+    # IIIF Presentation annotations response
+    annotations:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              type:
+                type: string
+              motivation: 
+                type: string
+              body: 
+                type: object
+                properties:
+                  type:
+                    type: string
+                  language:
+                    type: string
+                  value:
+                    type: string
+              target:
+                type: string
+      example:
+      - id: "https://example.org/iiif/book1/page/manifest/1"
+        type: "AnnotationPage"
+        items:
+          id: "https://example.org/iiif/book1/page/manifest/a1"
+          type: "Annotation"
+          motivation: "commenting"
+          body: 
+            type: "TextualBody"
+            language: "en"
+            value: "I love this manifest!"
+          target: "https://example.org/iiif/book1/manifest"
+                
     # Basic status response component.
     Status:
       type: object
