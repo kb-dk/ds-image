@@ -517,6 +517,10 @@ paths:
       responses:
         '200':
           description: 'Succes!'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/canvas'
           
   /{identifier}/range/{name}:
     get:
@@ -952,6 +956,7 @@ components:
                     format:
                       type: string
                       format: "image/jpeg"
+  
     # IIIF Presentation manifest response
     manifest:
       type: object
@@ -1280,6 +1285,64 @@ components:
                   type: string
                   example:  "Annotation about the Manifest"
         # TODO: Figure out if all of presentation API can be contained in one schema
+        
+    # IIIF Presentation canvas  response
+    canvas: 
+      type: object
+      properties:
+        #  Metadata about this canvas
+        id: 
+          type: string
+          example: "https://example.org/iiif/book1/canvas/p1"
+        type:
+          type: string
+          example: "Canvas"
+        label: 
+          type: object
+          properties:
+            none:
+              type: array
+              items:
+                type: string
+                example: "p. 1"
+        height:
+          type: integer
+          example: 1000
+        width:
+          type: integer
+          example: 750
+        items: 
+          type: array
+          items: 
+            type: object
+            properties:
+              id: 
+                type: string
+                example: "https://example.org/iiif/book1/content/p1/1"
+              type:
+                type: string
+                example: AnnotationPage
+              items:
+                type: array
+                items:
+                  type: string
+                  example: "Painting Annotations on the Canvas"
+        annotations: 
+          type: array
+          items: 
+            type: object
+            properties:
+              id: 
+                type: string
+                example: "https://example.org/iiif/book1/comments/p1/1"
+              type:
+                type: string
+                example: AnnotationPage
+              items:
+                type: array
+                items:
+                  type: string
+                  example: "Non-Painting Annotations on the Canvas"
         
     # Basic status response component.
     Status:
