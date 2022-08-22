@@ -547,6 +547,10 @@ paths:
       responses:
         '200':
           description: 'Succes!'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/range'
   
   /{identifier}/annotation/{name}:
     get:
@@ -1242,30 +1246,12 @@ components:
         items: 
           type: array
           items:
-            type: object
-            properties:
-              id: 
-                type: string
-                example: "https://example.org/iiif/book1/canvas/p1"
-              type:
-                type: string
-                example: "Canvas"
-              label:
-                type: string
-                example: "p. 1"
+            $ref: '#/components/schemas/canvas'
         # Structure of the resource, described with Ranges
         structures:
           type: array
           items:
-            type: object
-            properties:
-              id:
-                type: string
-                example: "https://example.org/iiif/book1/range/top"
-              type:
-                type: string
-                example: "Range"
-              # Ranges members should be included here
+            $ref: '#/components/schemas/range'
             # Any additional top level Ranges can be included here
         # Commentary Annotations on the Manifest
         annotations:
@@ -1286,7 +1272,7 @@ components:
                   example:  "Annotation about the Manifest"
         # TODO: Figure out if all of presentation API can be contained in one schema
         
-    # IIIF Presentation canvas  response
+    # IIIF Presentation canvas response
     canvas: 
       type: object
       properties:
@@ -1343,7 +1329,95 @@ components:
                 items:
                   type: string
                   example: "Non-Painting Annotations on the Canvas"
-        
+    
+    # IIIF Presentation range response - used with structures in manifest
+    range:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            example: "https://example.org/iiif/book1/range/r0"
+          type:
+            type: string
+            example: "Range"
+          label:
+            type: object
+            properties:
+              en:
+                type: string
+                example: "Table of Contents"
+              items:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id: 
+                      type: string
+                    type: 
+                      type: string
+                    label:
+                      type: object
+                      properties:
+                        en:
+                          type: string
+                    supplementary:
+                      type: object
+                      properties:
+                        id: 
+                          type: string
+                        type:
+                          type: string
+                    items: 
+                      type: array
+                      items: 
+                        type: object
+                        properties:
+                          id: 
+                            type: string
+                          type:
+                            type: string
+                          source:
+                            type: string
+                          selector: 
+                            type: object
+                            properties:
+                              type:
+                                type: string
+                              value:
+                                type: string
+                example:
+                - id: "https://example.org/iiif/book1/canvas/cover"
+                  type: "Canvas"
+                - id: "https://example.org/iiif/book1/range/r1"
+                  type: "Range"
+                  label:
+                    en: "Introduction"
+                  supplementary:
+                    id: "https://example.org/iiif/book1/annocoll/introTexts"
+                    type: "AnnotationCollection"
+                - items:
+                    id: "https://example.org/iiif/book1/canvas/p1"
+                    type: "Canvas"
+                - items:
+                    id: "https://example.org/iiif/book1/canvas/p2"
+                    type: "Canvas"
+                - items:
+                    type: "SpecificResource"
+                    source: "https://example.org/iiif/book1/canvas/p3"
+                    selector:
+                      type: "FragmentSelector"
+                      value: "xywh=0,0,750,300"
+                - items: 
+                    id: "https://example.org/iiif/book1/canvas/backCover"
+                    type: "Canvas"
+
+  
+  
+    
+            
+            
     # Basic status response component.
     Status:
       type: object
