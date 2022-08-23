@@ -883,7 +883,7 @@ components:
       - width
       - height
     
-    # IIIF Presenntation collection response
+    # IIIF Presentation collection response
     collection: 
       type: object
       properties:
@@ -903,7 +903,8 @@ components:
               type: array
               items:
                 type: string
-                example: "Collection for Example Organization"
+          example:
+           - en: "Collection for Example Organization"
         summary: 
           type: object
           properties:
@@ -911,7 +912,8 @@ components:
               type: array
               items:
                 type: string
-                example: "Short summary of the Collection"
+              example: 
+              - "Short summary of the Collection"
         requiredStatement:
           type: object
           properties:
@@ -922,7 +924,6 @@ components:
                   type: array
                   items:
                     type: string
-                    example: "Attribution"
             value: 
               type: object
               properties:
@@ -930,7 +931,9 @@ components:
                   type: array
                   items:
                     type: string
-                    example: "Provided by Example Organization"
+          example:
+            - label: "Attribution"
+            - value: "Provided by Example Organization"
         items:
           type: array
           items:
@@ -938,10 +941,8 @@ components:
             properties:
               id:
                 type: string
-                example: "https://example.org/iiif/1/manifest"
               type:
                 type: string
-                example: "Manifest"
               label: 
                 type: object
                 properties:
@@ -949,7 +950,6 @@ components:
                     type: array
                     items:
                       type: string
-                      example: "Example Manifest 1"
               thumbnail:
                 type: array
                 items:
@@ -957,14 +957,19 @@ components:
                   properties:
                     id:
                       type: string
-                      example: "https://example.org/manifest1/thumbnail.jpg"
                     type:
                       type: string
-                      example: "Image"
                     format:
                       type: string
-                      format: "image/jpeg"
-  
+            example:
+            - id: "https://example.org/iiif/1/manifest" 
+              type: "Manifest" 
+              label: 
+                en: "Example Manifest 1"
+              thumbnail:
+                id: "https://example.org/manifest1/thumbnail.jpg"
+                type: "Image"
+                format: "image/jpeg"
     # IIIF Presentation manifest response
     manifest:
       type: object
@@ -987,18 +992,27 @@ components:
               type: array
               items:
                 type: string
-                example: "Book 1"
+          example:
+          - en: "Book 1"
         metadata:
           type: array
           items:
             type: object
             properties:
               label:
-                type:  string
-                example: Author
+                type: string
               value:
                 type: string
-                example: Anne Author
+          example:
+          - label:
+              en: "Author"
+            value:
+              none: "Anne Author"
+          - label:
+              en: "Published"
+            value:
+              en: "Paris, circa 1400"
+              fr: "Paris, environ 1400"
         summary:
           type: string
           example: "Book 1, written by Anne Author, published in Paris around 1400."
@@ -1007,15 +1021,12 @@ components:
           items:
             type: object
             properties:
-              '@id':
+              id:
                 type: string
-                example: "http://example.org/images/book1-page1/full/80,100/0/default.jpg"
               type:
                 type: string
-                example: "Image"
               format:
                 type: string
-                example: "image/jpeg"
               service:
                 type: array
                 items:
@@ -1023,13 +1034,18 @@ components:
                   properties:
                     id:
                       type: string
-                      example: "http://example.org/images/book1-page1"
                     type:
                       type: string
-                      example: "ImageService3"
                     profile:
                       type: string
-                      example: "level1"
+          example:
+          - id: "http://example.org/images/book1-page1/full/80,100/0/default.jpg"
+            type: "Image"
+            format: "image/jpeg"
+            service: 
+              id: "http://example.org/images/book1-page1"
+              type: "ImageService3"
+              example: "level1"
         # Presentation information
         viewingDirection:
           type: string
@@ -1050,10 +1066,11 @@ components:
           properties:
             label:
               type: string
-              example: "Attribution"
             value:
               type: string
-              example: "Provided by Example Organization"
+          example:
+          - label: "Attribution"
+            value: "Provided by Example Organization"
         provider:
           type: array
           items:
@@ -1061,13 +1078,10 @@ components:
             properties:
               id:
                 type: string
-                example: "https://example.org/about"
               type:
                 type: string
-                example: "Agent"
               label:
                 type: string
-                example: "Example organisation"
               homepage:
                 type: array
                 items:
@@ -1075,16 +1089,12 @@ components:
                   properties:
                     id: 
                       type: string
-                      example: "https://example.org/"
                     type:
                       type: string
-                      example: "Text"
                     label:
                       type: string
-                      example: "Example Organization Homepage"
                     format: 
                       type: string
-                      example: "text/html"
               logo:
                 type: array
                 items:
@@ -1092,13 +1102,10 @@ components:
                   properties:
                     id:
                       type: string
-                      example: "https://example.org/service/inst1/full/max/0/default.png"
                     type:
                       type: string
-                      example: "Image"
                     format:
                       type: string
-                      example: "image/png"
                     service:
                       type: array
                       items:
@@ -1106,13 +1113,10 @@ components:
                         properties:
                           id:
                             type: string
-                            example: "http://example.org/service/inst1"
                           type: 
                             type: string
-                            example: "ImageService3"
                           profile:
                             type: string
-                            example: "level2"
               seeAlso:
                 type: array
                 items:
@@ -1120,16 +1124,37 @@ components:
                   properties:
                     id: 
                       type: string
-                      example: "https://data.example.org/about/us.jsonld"
                     type:
                       type: string
-                      example: "Dataset"
                     format:
                       type: string
-                      example: "application/ld+json"
                     profile: 
                       type: string
-                      example: "https://schema.org/"
+            example:
+            - id: "https://example.org/about"
+              type: "Agent"
+              label: 
+                en: "Example organisation"
+              homepage: 
+                id: "https://example.org/"
+                text: "Text"
+                label:
+                  en: "Example Organization Homepage"
+                format: "text/html"
+              logo:
+                id: "https://example.org/service/inst1/full/max/0/default.png"
+                type: "Image"
+                format: "image/png"
+                service:
+                  id: "https://example.org/service/inst1"
+                  type: "ImageService3"
+                  profile: "level2"
+              seeAlso:
+                id: "https://data.example.org/about/us.jsonld"
+                type: "Dataset"
+                format: "application/ld+json"
+                profile: "https://schema.org/"
+                  
         # Links
         homepage:
           type: array
@@ -1138,16 +1163,17 @@ components:
             properties:
               id: 
                 type: string
-                example: "https://example.org/info/book1/"
               type:
                 type: string
-                example: "Text"
               label:
                 type: string
-                example: "Home page for Book 1"
               format:
                 type: string
-                example: "text/html"
+          example:
+          - id: "https://example.org/info/book1/"
+            type: "Text"
+            label: "Home page for Book 1"
+            format: "text/html"
         service:
           type: array
           items:
@@ -1155,13 +1181,14 @@ components:
             properties:
               id: 
                 type: string
-                example: "https://example.org/service/example"
               type:
                 type: string
-                example: "ExampleExtensionService"
               profile:
                 type: string
-                example: "https://example.org/docs/example-service.html"
+          example:
+          - id: "https://example.org/service/example"
+            type: "ExampleExtensionService"
+            profile: "https://example.org/docs/example-service.html"
         seeAlso:
           type: array
           items:
@@ -1169,16 +1196,17 @@ components:
             properties:
               id:
                 type: string
-                example: "https://example.org/library/catalog/book1.xml"
               type: 
                 type: string
-                example: "Dataset"
               format: 
                 type: string
-                example: "text/xml"
               profile:
                 type: string
-                example: "https://example.org/profiles/bibliographic"
+          example:
+          - id: "https://example.org/library/catalog/book1.xml"
+            type: "Dataset"
+            format: "text/xml"
+            profile: "https://example.org/profiles/bibliographic"
         rendering:
           type: array
           items:
@@ -1186,16 +1214,17 @@ components:
             properties:
               id:
                 type: string
-                example: "https://example.org/iiif/book1.pdf"
               type: 
                 type: string
-                example: "Text"
               label:
                 type: string
-                example: "Download as PDF"
               format: 
                 type: string
-                example: "application/pdf"
+            example:
+            - id: "https://example.org/iiif/book1.pdf"
+              type: "Text"
+              label: "Download as PDF"
+              format: "application/pdf"
         partOf:
           type: array
           items:
@@ -1203,19 +1232,21 @@ components:
             properties:
               id:
                   type: string
-                  example: "https://example.org/collections/books/"
               type: 
                 type: string
-                example: "Collection"
+          example:
+          - id: "https://example.org/collections/books/"
+            type: "Collection"
         start:
           type: object
           properties:
             id:
                 type: string
-                example: "https://example.org/iiif/book1/canvas/p2"
             type: 
               type: string
-              example: "Canvas"
+          example:
+          - id: "https://example.org/iiif/book1/canvas/p2"
+            type: "Canvas"
         # List of Services, referenced from within items, structures or annotations
         services:
           type: array
@@ -1224,28 +1255,30 @@ components:
             properties:
               '@id':
                 type: string
-                example: "https://example.org/iiif/auth/login"
               '@type':
                 type: string
-                example: "AuthCookieService1"
               profile:
                 type: string
-                example: "http://iiif.io/api/auth/1/login"
               label:
                 type: string
-                example: "Login to Example Institution"
               service:
                 type: object
                 properties:
                   '@id':
                     type: string
-                    example: "https://example.org/iiif/auth/login"
                   '@type':
                     type: string
-                    example: "AuthCookieService1"
                   profile:
                     type: string
-                    example: "http://iiif.io/api/auth/1/login"
+          example:
+          - '@id': "https://example.org/iiif/auth/login"
+            '@type': "AuthCookieService1"
+            profile: "http://iiif.io/api/auth/1/login"
+            label: "Login to Example Institution"
+            service:
+              '@id': "https://example.org/iiif/auth/login"
+              '@type': "AuthCookieService1"
+              profile: "http://iiif.io/api/auth/1/login"
         # List of Canvases
         items: 
           type: array
@@ -1294,15 +1327,17 @@ components:
             properties:
               id: 
                 type: string
-                example: "https://example.org/iiif/book1/content/p1/1"
               type:
                 type: string
-                example: AnnotationPage
               items:
                 type: array
                 items:
                   type: string
-                  example: "Painting Annotations on the Canvas"
+          example:
+          - id: "https://example.org/iiif/book1/content/p1/1"
+            type: "AnnotationPage"
+            items: 
+              - "Painting Annotations on the Canvas"
         annotations: 
           type: array
           items: 
@@ -1310,15 +1345,17 @@ components:
             properties:
               id: 
                 type: string
-                example: "https://example.org/iiif/book1/comments/p1/1"
               type:
                 type: string
-                example: AnnotationPage
               items:
                 type: array
                 items:
                   type: string
-                  example: "Non-Painting Annotations on the Canvas"
+          example: 
+          - id: "https://example.org/iiif/book1/comments/p1/1"
+            type: "AnnotationPage"
+            items: 
+              - "Non-Painting Annotations on the Canvas"
     
     # IIIF Presentation range response - used with structures in manifest
     range:
