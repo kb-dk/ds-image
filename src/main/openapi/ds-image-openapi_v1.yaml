@@ -316,6 +316,7 @@ paths:
           required: true
           schema:
             type: string
+          default: "full"
             
         - name: size
           in: path
