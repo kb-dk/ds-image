@@ -469,7 +469,7 @@ paths:
         required: true
         schema:
           type: string
-          enum: ["jpg", "png"]
+          enum: ["jpg", "png", "jpeg"]
           
       # IIP parameters 
       - $ref: '#/components/parameters/CNT'
