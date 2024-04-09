@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - bump sbforge-parent to v25
-
+- Switched to using ds-kaltura client. Removed Kaltura client implementation and kaltura integration unittest. Less code in ds-image. Removed integration yaml from aegis.
 
 =======
 ## [1.3.1](https://github.com/kb-dk/ds-image/releases/tag/ds-image-1.3.1) - 2024-02-23

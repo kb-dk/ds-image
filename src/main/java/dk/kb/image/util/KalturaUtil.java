@@ -8,17 +8,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import dk.kb.image.config.ServiceConfig;
-import dk.kb.image.kaltura.DsKalturaClient;
+
 import dk.kb.image.model.v1.ThumbnailsDto;
+import dk.kb.kaltura.client.DsKalturaClient;
 import dk.kb.util.webservice.exception.InvalidArgumentServiceException;
 
+/**
+ * <p>
+ * This class will instantiate a static KalturaClient that will be reused between calls. 
+ * The client will refresh session at a given interval. This will avoid session accumulation at Kaltura.  
+ * <p>
+ * 
+ */
 public class KalturaUtil {
 
     private static final Logger log = LoggerFactory.getLogger(KalturaUtil.class);
-    private static DsKalturaClient clientInstance = null;
-    private static long lastSessionStart=0;
-    private static long reloadIntervalInMillis=1L*24*60*60*1000; // 1 day
-          
+    private static DsKalturaClient clientInstance = null;    
+    private static long reloadIntervalSeconds=86400; //1 day
+
     /**
      * 
      * Example url to the sprite with all thumbnails:<br>
@@ -42,16 +49,16 @@ public class KalturaUtil {
         ThumbnailsDto thumbnails = new ThumbnailsDto();
         String kalturaUrl= ServiceConfig.getConfig().getString("kaltura.url");
         Integer partnerId = ServiceConfig.getConfig().getInteger("kaltura.partnerId");  
-        
-        DsKalturaClient client = getClientInstance();
+
+        DsKalturaClient client = getClient();
         String kalturaId = client.getKulturaInternalId(fileId);                     
-        
+
         if (kalturaId == null) {
             throw new InvalidArgumentServiceException("FileId not found at Kaltura:"+fileId);
         }             
         log.debug("ReferenceId lookup at kaltura resolved to internalId {} -> {}",fileId,kalturaId);
         String baseUrl=kalturaUrl+"/p/"+partnerId+"/thumbnail/entry_id/"+kalturaId;
-      
+
         if (width != null && width.intValue() > 0) {
             baseUrl=baseUrl+"/width/"+width;
         }
@@ -77,22 +84,22 @@ public class KalturaUtil {
         return thumbnails;          
     }
 
-    
-    public  synchronized static DsKalturaClient getClientInstance() throws IOException{
-        if (System.currentTimeMillis()-lastSessionStart >= reloadIntervalInMillis) {            
+
+    public static DsKalturaClient getClient() throws IOException{
+
+        //Create client first time.
+        if (clientInstance == null) {
             //Create the client
             String kalturaUrl= ServiceConfig.getConfig().getString("kaltura.url");
             String adminSecret = ServiceConfig.getConfig().getString("kaltura.adminSecret"); //Must not be shared or exposed.
             Integer partnerId = ServiceConfig.getConfig().getInteger("kaltura.partnerId");  
             String userId = ServiceConfig.getConfig().getString("kaltura.userId");
-            DsKalturaClient client = new DsKalturaClient(kalturaUrl,userId,partnerId,adminSecret);             
-            clientInstance=client;
-            log.info("Started a new Kaltura session");
-            lastSessionStart=System.currentTimeMillis(); //Reset timer           
-            return clientInstance;
+            DsKalturaClient newClientInstance = new DsKalturaClient(kalturaUrl,userId,partnerId,adminSecret,reloadIntervalSeconds);             
+            log.info("Started a new Kaltura session");           
+            clientInstance= newClientInstance;            
+            return clientInstance; //new clienty
         }
-        return clientInstance; //Reuse existing connection.
-        
+        return clientInstance;  //reuse
     }
     
 }
