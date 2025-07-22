@@ -13,4 +13,4 @@ as template for Logback setup instead.
 # ds-image.xml
 
 Tomcat configuration, used as-is by OpenShift and indirectly with Tomcat by copying and modifying paths.
-See [DEVELOPER.md](../../DEVELOPER.md) for details on Tomcat deployment.
+See [DEVELOPER.md](../../../DEVELOPER.md) for details on Tomcat deployment.

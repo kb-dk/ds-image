@@ -14,6 +14,7 @@
  */
 package dk.kb.image.webservice;
 
+import dk.kb.ds.shared.oauth.KBAuthorization;
 import org.json.JSONObject;
 import org.json.JSONArray;
 import dk.kb.image.config.ServiceConfig;
