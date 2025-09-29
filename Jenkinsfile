@@ -53,13 +53,13 @@ pipeline {
                         case ['ds-storage', 'ds-license']:
                             sh "mvn -s ${env.MVN_SETTINGS} versions:use-dep-version -Dincludes=dk.kb.license:* -DdepVersion=${params.ORIGINAL_BRANCH}-${params.ORIGINAL_JOB}-ds-license-SNAPSHOT -DforceVersion=true"
                             sh "mvn -s ${env.MVN_SETTINGS} versions:use-dep-version -Dincludes=dk.kb.kaltura:* -DdepVersion=${params.ORIGINAL_BRANCH}-${params.ORIGINAL_JOB}-ds-kaltura-SNAPSHOT -DforceVersion=true"
-    
+
                             echo "Changing MVN dependency license to: ${params.ORIGINAL_BRANCH}-${params.ORIGINAL_JOB}-ds-license-SNAPSHOT"
                             echo "Changing MVN dependency kaltura to: ${params.ORIGINAL_BRANCH}-${params.ORIGINAL_JOB}-ds-kaltura-SNAPSHOT"
                             break
                         case ['ds-present', 'ds-kaltura']:
                             sh "mvn -s ${env.MVN_SETTINGS} versions:use-dep-version -Dincludes=dk.kb.kaltura:* -DdepVersion=${params.ORIGINAL_BRANCH}-${params.ORIGINAL_JOB}-${params.ORIGINAL_JOB}-SNAPSHOT -DforceVersion=true"
-                            
+
                             echo "Changing MVN dependency kaltura to: ${params.ORIGINAL_BRANCH}-${params.ORIGINAL_JOB}-${params.ORIGINAL_JOB}-SNAPSHOT"
                             break
                     }
@@ -73,6 +73,19 @@ pipeline {
                     // Execute Maven build
                     sh "mvn -s ${env.MVN_SETTINGS} clean package"
                 }
+            }
+        }
+
+        stage('Analyze build results') {
+            steps {
+                recordIssues(aggregatingResults: true,
+                        tools: [java(),
+                                javaDoc(),
+                                mavenConsole(),
+                                taskScanner(highTags: 'FIXME',
+                                        normalTags: 'TODO',
+                                        includePattern: '**/*.java',
+                                        excludePattern: 'target/**/*')])
             }
         }
 
