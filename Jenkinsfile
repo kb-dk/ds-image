@@ -69,7 +69,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                script {
+                withMaven(traceability: true) {
                     // Execute Maven build
                     sh "mvn -s ${env.MVN_SETTINGS} clean package"
                 }
@@ -97,7 +97,9 @@ pipeline {
                 }
             }
             steps {
-                sh "mvn -s ${env.MVN_SETTINGS} clean deploy -DskipTests=true"
+                withMaven(traceability: true){
+                    sh "mvn -s ${env.MVN_SETTINGS} clean deploy -DskipTests=true"
+                }
             }
         }
     }
