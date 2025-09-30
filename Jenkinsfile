@@ -82,14 +82,20 @@ pipeline {
 
         stage('Analyze build results') {
             steps {
-                recordIssues(aggregatingResults: true,
-                        tools: [java(),
-                                javaDoc(),
-                                mavenConsole(),
-                                taskScanner(highTags: 'FIXME',
-                                        normalTags: 'TODO',
-                                        includePattern: '**/*.java',
-                                        excludePattern: 'target/**/*')])
+                recordIssues(
+                    aggregatingResults: true,
+                    tools: [
+                        java(),
+                        javaDoc(),
+                        mavenConsole(),
+                        taskScanner(
+                            highTags: 'FIXME',
+                            normalTags: 'TODO',
+                            includePattern: '**/*.java',
+                            excludePattern: 'target/**/*'
+                        )
+                    ]
+                )
             }
         }
 
@@ -101,7 +107,7 @@ pipeline {
                 }
             }
             steps {
-                withMaven(traceability: true){
+                withMaven(traceability: true) {
                     sh "mvn -s ${env.MVN_SETTINGS} clean deploy -DskipTests=true"
                 }
             }
