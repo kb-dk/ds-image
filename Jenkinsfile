@@ -54,17 +54,26 @@ pipeline {
             steps {
                 script {
                     switch (params.ORIGINAL_JOB) {
+                        case ['ds-shared']:
+                            sh "mvn -s ${env.MVN_SETTINGS} versions:use-dep-version -Dincludes=dk.kb.dsshared:* -DdepVersion=${params.ORIGINAL_BRANCH}-${params.ORIGINAL_JOB}-ds-shared-SNAPSHOT -DforceVersion=true"
+                            sh "mvn -s ${env.MVN_SETTINGS} versions:use-dep-version -Dincludes=dk.kb.license:* -DdepVersion=${params.ORIGINAL_BRANCH}-${params.ORIGINAL_JOB}-ds-license-SNAPSHOT -DforceVersion=true"
+                            sh "mvn -s ${env.MVN_SETTINGS} versions:use-dep-version -Dincludes=dk.kb.kaltura:* -DdepVersion=${params.ORIGINAL_BRANCH}-${params.ORIGINAL_JOB}-ds-kaltura-SNAPSHOT -DforceVersion=true"
+
+                            echo "Changing MVN dependency ds-shared to: ${params.ORIGINAL_BRANCH}-${params.ORIGINAL_JOB}-ds-shared-SNAPSHOT"
+                            echo "Changing MVN dependency ds-license to: ${params.ORIGINAL_BRANCH}-${params.ORIGINAL_JOB}-ds-license-SNAPSHOT"
+                            echo "Changing MVN dependency ds-kaltura to: ${params.ORIGINAL_BRANCH}-${params.ORIGINAL_JOB}-ds-kaltura-SNAPSHOT"
+                            break
                         case ['ds-storage', 'ds-license']:
                             sh "mvn -s ${env.MVN_SETTINGS} versions:use-dep-version -Dincludes=dk.kb.license:* -DdepVersion=${params.ORIGINAL_BRANCH}-${params.ORIGINAL_JOB}-ds-license-SNAPSHOT -DforceVersion=true"
                             sh "mvn -s ${env.MVN_SETTINGS} versions:use-dep-version -Dincludes=dk.kb.kaltura:* -DdepVersion=${params.ORIGINAL_BRANCH}-${params.ORIGINAL_JOB}-ds-kaltura-SNAPSHOT -DforceVersion=true"
 
-                            echo "Changing MVN dependency license to: ${params.ORIGINAL_BRANCH}-${params.ORIGINAL_JOB}-ds-license-SNAPSHOT"
-                            echo "Changing MVN dependency kaltura to: ${params.ORIGINAL_BRANCH}-${params.ORIGINAL_JOB}-ds-kaltura-SNAPSHOT"
+                            echo "Changing MVN dependency ds-license to: ${params.ORIGINAL_BRANCH}-${params.ORIGINAL_JOB}-ds-license-SNAPSHOT"
+                            echo "Changing MVN dependency ds-kaltura to: ${params.ORIGINAL_BRANCH}-${params.ORIGINAL_JOB}-ds-kaltura-SNAPSHOT"
                             break
                         case ['ds-present', 'ds-kaltura']:
-                            sh "mvn -s ${env.MVN_SETTINGS} versions:use-dep-version -Dincludes=dk.kb.kaltura:* -DdepVersion=${params.ORIGINAL_BRANCH}-${params.ORIGINAL_JOB}-${params.ORIGINAL_JOB}-SNAPSHOT -DforceVersion=true"
+                            sh "mvn -s ${env.MVN_SETTINGS} versions:use-dep-version -Dincludes=dk.kb.kaltura:* -DdepVersion=${params.ORIGINAL_BRANCH}-${params.ORIGINAL_JOB}-ds-kaltura-SNAPSHOT -DforceVersion=true"
 
-                            echo "Changing MVN dependency kaltura to: ${params.ORIGINAL_BRANCH}-${params.ORIGINAL_JOB}-${params.ORIGINAL_JOB}-SNAPSHOT"
+                            echo "Changing MVN dependency ds-kaltura to: ${params.ORIGINAL_BRANCH}-${params.ORIGINAL_JOB}-ds-kaltura-SNAPSHOT"
                             break
                     }
                 }
