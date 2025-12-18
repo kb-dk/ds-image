@@ -6,7 +6,7 @@
     <parent>
         <groupId>dk.kb.image</groupId>
         <artifactId>ds-image-parent</artifactId>
-        <version>3.0.1-SNAPSHOT</version>
+        <version>3.0.3-SNAPSHOT</version>
     </parent>
 
     <artifactId>ds-image-api</artifactId>
