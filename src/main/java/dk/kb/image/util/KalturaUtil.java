@@ -47,8 +47,9 @@ public class KalturaUtil {
             baseUrl=baseUrl+"/height/"+height;
         }
 
-        String seek=""; //if seek not defined, this empty string will just be added
-        if ((secondsEndSeek != null && secondsEndSeek>=0)  || (secondsStartSeek != null && secondsStartSeek>=0)) {
+        //Notice Kaltura API has changed. seek=0 will now overrule thumbnail number. Only set if positive.
+        String seek=""; //if seek not defined, this empty string will just be added        
+        if ((secondsEndSeek != null && secondsEndSeek>0)  || (secondsStartSeek != null && secondsStartSeek>0)) {
             seek="?start_sec="+secondsStartSeek+"&end_sec="+secondsEndSeek; 
         }
 
