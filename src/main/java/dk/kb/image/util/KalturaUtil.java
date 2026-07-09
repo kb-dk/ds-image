@@ -53,7 +53,7 @@ public class KalturaUtil {
             seek="?start_sec="+secondsStartSeek+"&end_sec="+secondsEndSeek; 
         }
 
-        thumbnails.setDefault(baseUrl); // Example: https://api.kaltura.nordu.net/p/380/thumbnail/entry_id/0_dtvciomh/width/200/
+        
 
         //This is the sprite version will all thumbnails.
         //Example: https://api.kaltura.nordu.net/p/380/thumbnail/entry_id/0_dtvciomh/width/200/vid_slices/10
@@ -68,6 +68,9 @@ public class KalturaUtil {
         }
         thumbnails.setThumbnails(timeSliceThumbnails);
 
+        //Make #4 defailt (index value 3 is number 4)
+        thumbnails.setDefault(timeSliceThumbnails.get(3)); // Example: https://api.kaltura.nordu.net/p/380/thumbnail/entry_id/0_dtvciomh/width/200/
+        
         return thumbnails;
 
     }
